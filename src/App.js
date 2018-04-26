@@ -92,7 +92,7 @@ class App extends Component {
     return (
       <div>
         <NavBar />
-        {<EditContributor show={this.state.showModal} {...this.props.contributor} />}
+        {<EditContributor show={this.state.showModal} {...this.props} />}
         <Grid fluid>
           {this.checkError()}
           <Row className="show-grid">
