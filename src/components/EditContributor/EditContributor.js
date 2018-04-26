@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Popover, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { Translate } from "react-redux-i18n";
 
 class EditContributor extends React.Component {
@@ -26,7 +26,6 @@ class EditContributor extends React.Component {
     if (!this.props.contributor) {
       return null;
     }
-    console.log(this.props.contributor);
     return (
       <div>
         <Modal show={this.state.show} onHide={this.handleClose}>
