@@ -1,4 +1,4 @@
-{ 
+{
   "app": {
     "title": "TAS - %{site_name}"
   },
@@ -21,10 +21,24 @@
     "ocupation_title": "<span class='danger_bold'>Occupancy per floor</span>",
     "overocupation_legend": "<span class='danger_bold'>*</span> Overoccupated floor",
     "situation_title": "<span class='danger_bold'>Status of contributors</span>",
-    "contributors_without_workroom": "Contributors without workroom: <span class='danger_bold'>%{number}</span>",
+    "contributors_without_workroom":
+      "Contributors without workroom: <span class='danger_bold'>%{number}</span>",
     "contributors_over_occupation": "Overoccupation contributors: %{number}",
     "contributors_assigned": "Assigned contributors: %{number}",
     "contributors_size": "<strong>Total contributors: %{number}</strong>"
+  },
+  "edit": {
+    "title": "Edit Contributor",
+    "contributorName": "Name",
+    "contributorCode": "Contributor Number",
+    "contributorBU": "Bussines Unit",
+    "data": "<span class='danger_bold'>Workplace Info</span>",
+    "placeholder": "Select...",
+    "floor": "Floor",
+    "workroom": "Workroom",
+    "workplace": "Workplace",
+    "overoccupation": "overoccupation",
+    "assigned_workplace": "Workplace Assigned"
   },
   "error": "Failed to connect to server. Try again later."
 }

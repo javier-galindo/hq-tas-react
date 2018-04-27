@@ -21,10 +21,24 @@
     "ocupation_title": "<span class='danger_bold'>Ocupación por planta</span>",
     "overocupation_legend": "<span class='danger_bold'>*</span> Planta sobreocupada",
     "situation_title": "<span class='danger_bold'>Situación de los colaboradores</span>",
-    "contributors_without_workroom": "Colaboradores sin sala: <span class='danger_bold'>%{number}</span>",
+    "contributors_without_workroom":
+      "Colaboradores sin sala: <span class='danger_bold'>%{number}</span>",
     "contributors_over_occupation": "Colaboradores sobreocupación: %{number}",
     "contributors_assigned": "Colaboradores asignados: %{number}",
     "contributors_size": "<strong>Total colaboradores: %{number}</strong>"
+  },
+  "edit": {
+    "title": "Editar datos colaborador",
+    "contributorName": "Nombre",
+    "contributorCode": "Nº empleado",
+    "contributorBU": "Agencia",
+    "data": "<span class='danger_bold'>Datos del puesto de trabajo</span>",
+    "placeholder": "Seleccione...",
+    "floor": "Planta",
+    "workroom": "Sala",
+    "workplace": "Puesto",
+    "overoccupation": "sobreocupada",
+    "assigned_workplace": "Puesto ocupado"
   },
   "error": "Ha ocurrido un error al conectar con el servidor. Inténtelo de nuevo más tarde."
 }
