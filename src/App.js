@@ -1,16 +1,6 @@
 import React, { Component } from "react";
 import { Translate } from "react-redux-i18n";
-import {
-  Table,
-  Grid,
-  Col,
-  Row,
-  Button,
-  Popover,
-  Modal,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { Table, Grid, Col, Row } from "react-bootstrap";
 
 import { connect } from "react-redux";
 

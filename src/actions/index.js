@@ -37,6 +37,44 @@ export function getSiteFullInfo() {
     }));
 }
 
+export function getWorkrooms(floorId) {
+  return API.get(`/workrooms.json?floor_id=${floorId}`)
+    .then(response => ({
+      type: "GET_WORKROOMS",
+      payload: response.data,
+    }))
+    .catch(() => ({
+      type: "HANDLE_ERROR",
+      payload: true,
+    }));
+}
+
+export function getWorkplaces(wid) {
+  return API.get(`/workplaces.json?workroom_id=${wid}`)
+    .then(response => ({
+      type: "GET_WORKPLACES",
+      payload: response.data,
+    }))
+    .catch(() => ({
+      type: "HANDLE_ERROR",
+      payload: true,
+    }));
+}
+
+export function cleanWorkrooms() {
+  return {
+    type: "CLEAN_WORKROOMS",
+    payload: null,
+  };
+}
+
+export function cleanWorkplaces() {
+  return {
+    type: "CLEAN_WORKPLACES",
+    payload: null,
+  };
+}
+
 export const changeLanguage = lang => (dispatch) => {
   dispatch(setLocale(lang));
 };
