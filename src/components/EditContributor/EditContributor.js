@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Translate } from "react-redux-i18n";
-import { connect } from "react-redux";
 
 import EditContributorForm from "./EditContributorForm";
 
-export class EditContributor extends Component {
+class EditContributor extends Component {
   state = {
     show: false,
   };

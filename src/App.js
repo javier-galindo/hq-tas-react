@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import { getContributorsUnassigned, getContributor } from "./actions";
 import SiteData from "./components/siteData/siteData";
-import NavBar from "./components/NavBar/NavBar";
+import { NavBar } from "./components/NavBar/NavBar";
 import AlertDissmisable from "./components/widgets/alertDissmisable";
 import EditContributor from "./components/EditContributor/EditContributor";
 
@@ -66,7 +66,7 @@ class App extends Component {
       );
     }
 
-    return contributors.map((item, i) => (
+    return contributors.map(item => (
       <tr key={item.id} onClick={this.editContributor}>
         <td value={item.id}>{`${item.first_name} ${item.last_name}`}</td>
         <td value={item.id}>{item.workroom}</td>
