@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { Translate } from "react-redux-i18n";
 
 import EditContributorForm from "./EditContributorForm";
@@ -28,14 +28,8 @@ class EditContributor extends Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EditContributorForm />
+          <EditContributorForm handleClose={this.handleClose} />
         </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.handleClose}>Cancelar</Button>
-          <Button onClick={this.handleClose} bsStyle="danger">
-            Guardar
-          </Button>
-        </Modal.Footer>
       </Modal>
     );
   }

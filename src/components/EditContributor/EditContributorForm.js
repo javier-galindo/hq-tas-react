@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FormControl, FormGroup, ControlLabel, Row, Col } from "react-bootstrap";
+import { FormControl, FormGroup, ControlLabel, Row, Col, Button } from "react-bootstrap";
 import { Translate, I18n } from "react-redux-i18n";
 import { connect } from "react-redux";
 import { getWorkrooms, getWorkplaces, cleanWorkplaces, cleanWorkrooms } from "../../actions";
@@ -8,13 +8,23 @@ class EditContributorForm extends Component {
   state = {
     disableWorkroom: true,
     disableWorkplace: true,
+    overoccupatedWorkroom: false,
+    assignedWorkplace: {
+      assigned: false,
+      assignedContributor: {},
+    },
   };
 
   handleFloors = (e) => {
     const floorId = e.target.value;
 
     if (floorId) {
-      this.setState({ disableWorkroom: false, disableWorkplace: true });
+      this.setState({
+        disableWorkroom: false,
+        disableWorkplace: true,
+        overoccupatedWorkroom: false,
+        assignedWorkplace: { assigned: false, assignedContributor: {} },
+      });
       this.props.dispatch(cleanWorkplaces());
       this.props.dispatch(getWorkrooms(floorId));
       return null;
@@ -23,6 +33,8 @@ class EditContributorForm extends Component {
     this.setState({
       disableWorkroom: true,
       disableWorkplace: true,
+      overoccupatedWorkroom: false,
+      assignedWorkplace: { assigned: false, assignedContributor: {} },
     });
     this.props.dispatch(cleanWorkrooms());
     this.props.dispatch(cleanWorkplaces());
@@ -30,15 +42,50 @@ class EditContributorForm extends Component {
   };
 
   handleWorkroom = (e) => {
-    const wid = e.target.value;
+    const wid = parseInt(e.target.value, 0);
+    const workrooms = this.props.workrooms.workrooms;
+    const obj = workrooms.find(res => res.id === wid);
+
     if (!wid) {
-      this.setState({ disableWorkplace: true });
+      this.setState({
+        overoccupatedWorkroom: false,
+        disableWorkplace: true,
+        assignedWorkplace: { assigned: false, assignedContributor: {} },
+      });
       this.props.dispatch(cleanWorkplaces());
       return null;
     }
+    if (obj.overoccupated) {
+      this.setState({
+        overoccupatedWorkroom: true,
+        disableWorkplace: true,
+        assignedWorkplace: { assigned: false, assignedContributor: {} },
+      });
 
-    this.setState({ disableWorkplace: false });
+      this.props.dispatch(cleanWorkplaces());
+      return null;
+    }
+    this.setState({
+      overoccupatedWorkroom: false,
+      disableWorkplace: false,
+      assignedWorkplace: { assigned: false, assignedContributor: {} },
+    });
+
     return this.props.dispatch(getWorkplaces(wid));
+  };
+
+  handleWorkplaces = (e) => {
+    const wplaceid = parseInt(e.target.value, 0);
+    const workplaces = this.props.workrooms.workplaces;
+    const obj = workplaces.find(res => res.id === wplaceid);
+
+    if (wplaceid && obj.contributor) {
+      this.setState({
+        assignedWorkplace: { assigned: true, assignedContributor: obj.contributor },
+      });
+    } else {
+      this.setState({ assignedWorkplace: { assigned: false, assignedContributor: {} } });
+    }
   };
 
   renderFloors = (floors) => {
@@ -67,10 +114,60 @@ class EditContributorForm extends Component {
       </option>
     ));
 
+  renderMessage = () => {
+    const overoccupated = this.state.overoccupatedWorkroom;
+    const assigned = this.state.assignedWorkplace;
+    if (overoccupated) {
+      return (
+        <Row className="message">
+          <Col md={1}>
+            <i className="fa fa-exclamation-triangle iconCss text-warning" aria-hidden="true" />
+          </Col>
+          <Col md={11}>
+            <Translate value="edit.overoccupationMessage" tag="p" />
+          </Col>
+        </Row>
+      );
+    }
+    if (assigned.assigned) {
+      return (
+        <Row className="message ">
+          <Col md={1}>
+            <i className="fa fa-exclamation-triangle iconCss text-warning" aria-hidden="true" />
+          </Col>
+          <Col md={11}>
+            <Translate
+              value="edit.assignedMessage"
+              tag="p"
+              new={`${this.props.contributor.contributor.first_name} ${
+                this.props.contributor.contributor.last_name
+              }`}
+              assigned={`${assigned.assignedContributor.first_name} ${
+                assigned.assignedContributor.last_name
+              }`}
+              dangerousHTML
+            />
+          </Col>
+        </Row>
+      );
+    }
+    return null;
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const newContributor = this.props.contributor.contributor;
+    const oldContributor = this.state.assignedWorkplace.assignedContributor;
+    if(oldContributor){
+      console.log(oldContributor);
+    }
+  };
+
   render() {
     if (!this.props.contributor || !this.props.contributor.contributor) {
       return null;
     }
+
     if (!this.props.contributors.site) {
       return null;
     }
@@ -78,7 +175,7 @@ class EditContributorForm extends Component {
     const floors = this.props.contributors.site.buildings[0].floors;
     const contributor = this.props.contributor.contributor;
     return (
-      <form className="formData">
+      <form className="formData" onSubmit={this.handleSubmit}>
         <Translate value="edit.contributorName" tag="label" />
         <h4>{`${contributor.first_name} ${contributor.last_name}`}</h4>
         <Translate value="edit.contributorCode" tag="label" />
@@ -101,7 +198,10 @@ class EditContributorForm extends Component {
             </FormGroup>
           </Col>
           <Col md={4}>
-            <FormGroup controlId="workroom">
+            <FormGroup
+              controlId="workroom"
+              validationState={this.state.overoccupatedWorkroom ? "warning" : null}
+            >
               <ControlLabel>
                 <Translate value="edit.workroom" />
               </ControlLabel>
@@ -116,9 +216,19 @@ class EditContributorForm extends Component {
                   : null}
               </FormControl>
             </FormGroup>
+            {this.state.overoccupatedWorkroom ? (
+              <div className="text-warning">
+                <Translate value="edit.overoccupation" />
+                <i className="fa fa-exclamation-triangle iconCss" aria-hidden="true" />
+              </div>
+            ) : null}
           </Col>
           <Col md={4}>
-            <FormGroup controlId="workplace">
+            <FormGroup
+              controlId="workplace"
+              onChange={this.handleWorkplaces}
+              validationState={this.state.assignedWorkplace.assigned ? "warning" : null}
+            >
               <ControlLabel>
                 <Translate value="edit.workplace" />
               </ControlLabel>
@@ -133,6 +243,21 @@ class EditContributorForm extends Component {
                   : null}
               </FormControl>
             </FormGroup>
+            {this.state.assignedWorkplace.assigned ? (
+              <div className="text-warning">
+                <Translate value="edit.assigned_workplace" />
+                <i className="fa fa-exclamation-triangle iconCss" aria-hidden="true" />
+              </div>
+            ) : null}
+          </Col>
+        </Row>
+        {this.renderMessage()}
+        <Row>
+          <Col md={12}>
+            <Button onClick={this.props.handleClose}>Cancelar</Button>
+            <Button onClick={this.handleSubmit} bsStyle="danger" type="submit">
+              Guardar
+            </Button>
           </Col>
         </Row>
       </form>

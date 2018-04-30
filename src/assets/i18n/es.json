@@ -38,7 +38,9 @@
     "workroom": "Sala",
     "workplace": "Puesto",
     "overoccupation": "sobreocupada",
-    "assigned_workplace": "Puesto ocupado"
+    "assigned_workplace": "Puesto ocupado",
+    "overoccupationMessage": "La sala seleccionada tiene todos los puestos ocupados. Se asignará el colaborador a la sala sin un puesto en concreto",
+    "assignedMessage": "El puesto seleccionado ya está ocupado. Si sienta a <strong>%{new}</strong>, el colaborador %{assigned} dejará de tener un puesto asignado"
   },
   "error": "Ha ocurrido un error al conectar con el servidor. Inténtelo de nuevo más tarde."
 }

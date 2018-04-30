@@ -69,3 +69,15 @@ body {
   color: #ce422b;
   font-weight: bold;
 }
+
+.iconCss {
+  position: relative;
+  left: 35%;
+}
+
+.message {
+  margin-top: 5%;
+}
+.message p {
+  word-wrap: break-word;
+}
